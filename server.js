@@ -4,7 +4,8 @@ const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
-
+const path = require("path")//heroku deployment
+const auth= require('./services/authentication');
 
 require('dotenv').config();
 
@@ -49,6 +50,11 @@ app.disable('x-powered-by');
 //app.use('/exercises',exercisesRouter);
 //app.use('/users',usersRouter);
 app.use('/user',require('./models/user/api'));
+
+//heroku deployment
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/front/build", "index.html"));
+});
 
 //start listening
 app.listen(port,() => {
